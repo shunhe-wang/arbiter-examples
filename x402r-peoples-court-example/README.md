@@ -148,6 +148,9 @@ The offline checks cover the terms-bound ERC-3009 signature and salt substitutio
 They generate disposable signing material at runtime and make no chain transactions or hosted filings.
 They do not prove hosted onboarding, fee collection, natural stay timing, appeals, or live settlement.
 
+A [fresh October 19 Base Sepolia run](VERIFICATION.md) completed the local integration through a confirmed 0.01 test-USDC return to the payer.
+That controlled synthetic run used a local service, waived filing fees, and the supported post-service test clock. Hosted access, paid fees, natural stay timing, and appeals remain unverified; the report also records a separate JSON projection limitation.
+
 `.env`, `.state/`, dependencies, and logs are ignored by Git.
 State files can contain signed authorizations, case capabilities, and notices; protect them as credentials.
 The scripts preserve broadcast hashes and pending markers so an ambiguous outcome stops automatic rebroadcast.
