@@ -21,6 +21,9 @@ RUN ollama serve & sleep 2 && ollama pull ${OLLAMA_MODEL} && pkill ollama
 # --- Stage 2: Build arbiter ---
 FROM node:22-slim AS builder
 
+COPY scripts/node-trust.mjs /opt/project-tls/node-trust.mjs
+ENV NODE_OPTIONS="--import=/opt/project-tls/node-trust.mjs"
+
 RUN npm install -g pnpm@latest
 
 WORKDIR /app
@@ -50,6 +53,9 @@ RUN pnpm exec tsc
 
 # --- Stage 3: Production ---
 FROM node:22-slim
+
+COPY scripts/node-trust.mjs /opt/project-tls/node-trust.mjs
+ENV NODE_OPTIONS="--import=/opt/project-tls/node-trust.mjs"
 
 RUN npm install -g pnpm@latest
 
