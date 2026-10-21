@@ -10,7 +10,8 @@
     "facilitator": "node --import ./scripts/node-trust.mjs --import tsx --env-file=.env.arbiter src/facilitator.ts",
     "client": "node --import ./scripts/node-trust.mjs --import tsx --env-file=.env.client src/client.ts",
     "typecheck": "tsc --noEmit",
-    "test:tls-trust": "node scripts/verify-tls-trust.mjs"
+    "test:tls-trust": "node scripts/verify-tls-trust.mjs",
+    "test:tls-policy": "node scripts/test-node-trust.mjs scripts/node-trust.mjs"
   },
   "dependencies": {
     "@x402/core": "^2.14.0",
@@ -33,6 +34,6 @@
     "typescript": "^5.9.0"
   },
   "engines": {
-    "node": "^22.19.0 || >=24.0.0"
+    "node": "^22.19.0 || >=24.5.0"
   }
 }

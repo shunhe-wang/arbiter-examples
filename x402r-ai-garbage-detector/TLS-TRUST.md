@@ -3,12 +3,13 @@
 The October 2026 eMudhra compromise requires a Node trust update independently of browser updates.
 The Node stages in these Dockerfiles preload `scripts/node-trust.mjs` before package installation and runtime startup.
 The local setup/arbiter/merchant/facilitator/client commands also preload it.
-The policy uses supported Node CA APIs, requiring Node 22.19+ or Node 24+.
+The policy uses supported Node CA APIs, requiring Node 22.19+ or Node 24.5+.
 
 Until Node releases its intermediate-key blocklist, the policy removes the four root public keys in the [incident inventory](https://emudhra.we-have-a-problem.com/roots.json) from the process's selected default CAs.
 It preserves other system/default/extra CAs and retains certificate and hostname verification.
 The broader root distrust may block legitimate services chaining through those roots; do not disable verification to work around a failure.
 OpenSSL CA mode requires explicit `SSL_CERT_FILE` and `SSL_CERT_DIR` paths so the selected trust store can be enumerated without restoring bundled roots.
+Load the policy before any other code calls `tls.setDefaultCACertificates()`; previously replaced programmatic default stores are unsupported.
 Explicit custom CA configurations and non-Node clients need their own checks.
 
 Before a local package install, protect the package manager itself:
@@ -17,6 +18,8 @@ Before a local package install, protect the package manager itself:
 ARBITER_TLS_PRELOAD="$(pwd)/scripts/node-trust.mjs"
 NODE_OPTIONS="--import=\"$ARBITER_TLS_PRELOAD\" ${NODE_OPTIONS-}" pnpm install
 ```
+
+`npm run test:tls-policy` checks unaffected CA preservation on offline loopback TLS, including OpenSSL file/directory trust with extra CAs and duplicated bundled roots. It requires OpenSSL.
 
 Run the opt-in, unauthenticated HTTPS/fetch probe with:
 
