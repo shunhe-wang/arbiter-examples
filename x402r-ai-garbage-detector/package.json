@@ -4,12 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "setup": "tsx --env-file=.env.arbiter src/scripts/deploy-operator.ts",
-    "arbiter": "tsx --env-file=.env.arbiter src/arbiter.ts",
-    "merchant": "tsx --env-file=.env.merchant src/merchant.ts",
-    "facilitator": "tsx --env-file=.env.arbiter src/facilitator.ts",
-    "client": "tsx --env-file=.env.client src/client.ts",
-    "typecheck": "tsc --noEmit"
+    "setup": "node --import ./scripts/node-trust.mjs --import tsx --env-file=.env.arbiter src/scripts/deploy-operator.ts",
+    "arbiter": "node --import ./scripts/node-trust.mjs --import tsx --env-file=.env.arbiter src/arbiter.ts",
+    "merchant": "node --import ./scripts/node-trust.mjs --import tsx --env-file=.env.merchant src/merchant.ts",
+    "facilitator": "node --import ./scripts/node-trust.mjs --import tsx --env-file=.env.arbiter src/facilitator.ts",
+    "client": "node --import ./scripts/node-trust.mjs --import tsx --env-file=.env.client src/client.ts",
+    "typecheck": "tsc --noEmit",
+    "test:tls-trust": "node scripts/verify-tls-trust.mjs"
   },
   "dependencies": {
     "@x402/core": "^2.14.0",
@@ -30,5 +31,8 @@
     "@types/node": "^22.0.0",
     "tsx": "^4.19.4",
     "typescript": "^5.9.0"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
   }
 }
